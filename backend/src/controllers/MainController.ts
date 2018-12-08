@@ -6,6 +6,14 @@ export class MainController {
             message: "GET successful"
         })
     }
+
+    public getList(req: Request, res: Response) {
+        // TODO: Get list of issues from db
+    }
+
+    public getIssue(req: Request, res: Response) {
+        // TODO: Get issue using id
+    }
 }
 
 export const mainController = new MainController()
