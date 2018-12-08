@@ -4,6 +4,7 @@
     "description": "mean-stack test backend",
     "main": "dist/server.js",
     "scripts": {
+        "dev": "node ./dist/server.js",
         "test": "echo \"Error: this project hasn't implemented tests yet\" && exit 1",
         "compile": "tsc",
         "prepare": "npm run compile",
