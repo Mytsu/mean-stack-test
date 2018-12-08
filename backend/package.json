@@ -2,7 +2,7 @@
     "name": "backend",
     "version": "1.0.0",
     "description": "mean-stack test backend",
-    "main": "dist/index.js",
+    "main": "dist/server.js",
     "scripts": {
         "test": "echo \"Error: this project hasn't implemented tests yet\" && exit 1",
         "compile": "tsc",
