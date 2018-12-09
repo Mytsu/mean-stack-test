@@ -1,0 +1,11 @@
+{
+    "extends": "../tsconfig.json",
+    "compileOnSave": true,
+    "compilerOptions": {
+      "outDir": "../dist/server",
+      "baseUrl": "",
+      "module": "commonjs",
+      "sourceMap": true,
+      "pretty": true
+    }
+  }

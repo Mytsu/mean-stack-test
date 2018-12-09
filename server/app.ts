@@ -1,22 +1,23 @@
 import * as bodyParser from 'body-parser';
-import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as morgan from 'morgan';
 import * as mongoose from 'mongoose';
+import * as path from 'path';
+import { enviroment } from './enviroment';
 
 import setRoutes from './routes';
 
-dotenv.load({ path: "../.env" });
-
 const app = express();
-app.set('port', (process.env.PORT || 3000));
+app.set('port', (enviroment.PORT || 3000));
+
+app.use('/', express.static(path.join(__dirname, '../client')));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(morgan('dev'));
 
-mongoose.connect("mongodb://" + process.env.DB_HOST, { useNewUrlParser: true });
+mongoose.connect('mongodb://' + enviroment.DB_HOST, { useNewUrlParser: true });
 const db = mongoose.connection;
 (<any>mongoose).Promise = global.Promise;
 
@@ -27,7 +28,7 @@ db.once('open', () => {
   setRoutes(app);
 
   app.get('/*', (req, res) => {
-    res.sendStatus(404).send("request not found")
+    res.sendFile(path.join(__dirname, '../client/index.html'));
   });
 
   app.listen(app.get('port'), () => {
