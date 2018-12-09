@@ -1,34 +1,41 @@
-import * as express from "express"
-import * as bodyParser from "body-parser"
-import * as cors from "cors"
-import * as mongoose from "mongoose"
+import * as bodyParser from 'body-parser';
+import * as dotenv from 'dotenv';
+import * as express from 'express';
+import * as morgan from 'morgan';
+import * as mongoose from 'mongoose';
+import * as path from 'path';
 
-import { mainRoutes } from "./routes/MainRoutes";
+import setRoutes from './routes';
 
-class App {
-    public app: express.Application
-    public connection: mongoose.Connection
+const app = express();
+app.set('port', (process.env.PORT || 3000));
 
-    constructor() {
-        this.app = express()
-        this.config()
-        this.connectDb()    
-    }
+app.use('/', express.static(path.join(__dirname, '../public')));
 
-    private config(): void {
-        this.app.use(cors)
-        this.app.use(bodyParser.json())
-        this.app.use(bodyParser.urlencoded({extended: false}))
-        this.app.use("/", mainRoutes)
-    }    
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-    private connectDb(): void {
-        mongoose.connect('') // TODO: setup MongoDB
-        this.connection = mongoose.connection
-        this.connection.once('open', () => {
-            console.log("MongoDB connected successfully")
-        })
-    }
-}
+app.use(morgan('dev'));
 
-export default new App().app
+dotenv.load({ path: '.env' });
+mongoose.connect("mongodb://localhost:27017/mean-stack-test");
+const db = mongoose.connection;
+(<any>mongoose).Promise = global.Promise;
+
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+  console.log('Connected to MongoDB');
+
+  setRoutes(app);
+
+  app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+  });
+
+  app.listen(app.get('port'), () => {
+    console.log('listening on port ' + app.get('port'));
+  });
+
+});
+
+export { app };

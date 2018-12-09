@@ -4,7 +4,7 @@
     "description": "mean-stack test backend",
     "main": "dist/server.js",
     "scripts": {
-        "dev": "node ./dist/server.js",
+        "dev": "node ./dist/app.js",
         "test": "echo \"Error: this project hasn't implemented tests yet\" && exit 1",
         "compile": "tsc",
         "prepare": "npm run compile",
@@ -22,7 +22,9 @@
     },
     "dependencies": {
         "cors": "^2.8.5",
+        "dotenv": "^6.2.0",
         "express": "^4.16.4",
-        "mongoose": "^5.3.15"
+        "mongoose": "^5.3.15",
+        "morgan": "^1.9.1"
     }
 }
