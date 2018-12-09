@@ -3,22 +3,20 @@ import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as morgan from 'morgan';
 import * as mongoose from 'mongoose';
-import * as path from 'path';
 
 import setRoutes from './routes';
 
+dotenv.load({ path: "../.env" });
+
 const app = express();
 app.set('port', (process.env.PORT || 3000));
-
-app.use('/', express.static(path.join(__dirname, '../public')));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(morgan('dev'));
 
-dotenv.load({ path: '.env' });
-mongoose.connect("mongodb://localhost:27017/mean-stack-test");
+mongoose.connect("mongodb://" + process.env.DB_HOST, { useNewUrlParser: true });
 const db = mongoose.connection;
 (<any>mongoose).Promise = global.Promise;
 
@@ -29,7 +27,7 @@ db.once('open', () => {
   setRoutes(app);
 
   app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
+    res.sendStatus(404).send("request not found")
   });
 
   app.listen(app.get('port'), () => {
