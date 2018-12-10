@@ -1,4 +1,3 @@
-import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import * as morgan from 'morgan';
 import * as mongoose from 'mongoose';
@@ -11,9 +10,8 @@ const app = express();
 app.set('port', (enviroment.PORT || 3000));
 
 app.use('/', express.static(path.join(__dirname, '../client')));
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use(morgan('dev'));
 

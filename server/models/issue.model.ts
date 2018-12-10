@@ -1,11 +1,11 @@
 import * as mongoose from 'mongoose';
 
-let Issue = new mongoose.Schema({
+const IssueSchema = new mongoose.Schema({
     title: {
         type: String
     },
     responsible: {
-        type: String 
+        type: String
     },
     description: {
         type: String
@@ -19,6 +19,8 @@ let Issue = new mongoose.Schema({
     }
 });
 
-export default mongoose.model('Issue', Issue);
+const Issue = mongoose.model('Issue', IssueSchema);
+
+export default Issue;
 
 
