@@ -27,8 +27,6 @@ export class ListComponent implements OnInit {
       .subscribe((data: Issue[]) => {
         this.issues = data;
         this.dataSource.data = data;
-        console.log('Data requested...');
-        console.log(this.issues);
       });
   }
 
@@ -39,7 +37,7 @@ export class ListComponent implements OnInit {
   deleteIssue(id: String) {
     this.issueService
       .deleteIssue(id)
-      .subscribe(() => {
+      .subscribe((data: String) => {
         this.fetchIssues();
       });
   }

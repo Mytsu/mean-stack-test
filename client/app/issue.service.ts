@@ -1,44 +1,37 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'environments/environment';
+
+import { Issue } from './issue.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IssueService {
 
-  url = 'http://localhost:3000';
+  url = environment.url;
 
-  getIssues() {
-    return this.http.get(`${this.url}/api/issues`);
+  getIssues(): Observable<Issue[]> {
+    return <Observable<Issue[]>> this.http.get(`${this.url}/api/issues`);
   }
 
-  getIssueById(id: String) {
-    return this.http.get(`${this.url}/api/issues/${id}`);
+  getIssueById(id: String): Observable<Issue> {
+    return <Observable<Issue>> this.http.get(`${this.url}/api/issues/${id}`);
   }
 
-  addIssue(title: String, responsible: String, description: String, severity: String) {
-    const issue = {
-      title: title,
-      responsible: responsible,
-      description: description,
-      severity: severity,
-    };
-    return this.http.put(`${this.url}/api/issues/add`, JSON.stringify(issue));
+  addIssue(title: String, responsible: String, description: String, severity: String): Observable<Issue> {
+    const issue: Issue = {title, responsible, description, severity};
+    return <Observable<Issue>> this.http.put(`${this.url}/api/issues/add`, issue);
   }
 
-  updateIssue(id, title, responsible, description, severity, status) {
-    const issue = {
-      title: title,
-      responsible: responsible,
-      description: description,
-      severity: severity,
-      status: status
-    };
-    return this.http.post(`${this.url}/api/issues/update/${id}`,  JSON.stringify(issue), { responseType: 'text' });
+  updateIssue(id: String, title: String, responsible: String, description: String, severity: String, status: String): Observable<String> {
+    const issue: Issue = {title, responsible, description, severity, status};
+    return <Observable<String>> this.http.post(`${this.url}/api/issues/update/${id}`, issue, { responseType: 'text'});
   }
 
-  deleteIssue(id) {
-    return this.http.get(`${this.url}/issues/delete/${id}`, { responseType: 'text' });
+  deleteIssue(id: String): Observable<String> {
+    return <Observable<String>> this.http.get(`${this.url}/api/issues/delete/${id}`, { responseType: 'text'});
   }
 
   constructor(private http: HttpClient) { }

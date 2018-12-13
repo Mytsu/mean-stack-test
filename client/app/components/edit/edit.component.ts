@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { IssueService } from 'app/issue.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
-import { Issue } from '../../issue.model';
 
 @Component({
   selector: 'app-edit',
