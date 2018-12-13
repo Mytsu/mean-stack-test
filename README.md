@@ -9,3 +9,5 @@ Esta é uma aplicação para testar uma stack de serviços e frameworks utilizan
 - Angular 7;
 
 - NodeJS.
+
+A aplicação é capaz de criar, editar e deletar issues, com uma interface feita utilizando Angular Material.
