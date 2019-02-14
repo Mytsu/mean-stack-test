@@ -1,11 +1,16 @@
-version: "2"
+version: "3"
 
 services:
   server:
     build: .
     ports: 
-      - "3000:80"
+      - "3000:3000"
   database:
     image: mongo
+    volumes: 
+      - data:/data/db
     ports:
       - "27017:27017"
+
+volumes:
+  data:
