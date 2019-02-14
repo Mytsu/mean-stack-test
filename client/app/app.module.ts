@@ -17,7 +17,8 @@ import { MatToolbarModule,
          MatCardModule,
          MatTableModule,
          MatDividerModule,
-         MatSnackBarModule } from '@angular/material';
+         MatSnackBarModule,
+         MatStepperModule} from '@angular/material';
 import { IssueService } from './issue.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -45,7 +46,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatDividerModule,
     MatSnackBarModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatStepperModule
   ],
   providers: [IssueService],
   bootstrap: [AppComponent]
