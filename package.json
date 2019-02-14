@@ -14,7 +14,8 @@
         "bss": "yarn build && yarn start",
         "test": "ng test",
         "lint": "ng lint",
-        "e2e": "ng e2e"
+        "e2e": "ng e2e",
+        "deploy": "yarn build && docker-compose up"
     },
     "private": true,
     "dependencies": {
