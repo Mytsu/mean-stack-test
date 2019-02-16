@@ -3,8 +3,19 @@ import * as morgan from 'morgan';
 import * as mongoose from 'mongoose';
 import * as path from 'path';
 import { enviroment } from './enviroment';
-
 import setRoutes from './routes';
+
+/* const corsRequests = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  // some browsers send a pre-flight OPTIONS request to check if CORS is enabled so you have to also respond to that
+  if ('OPTIONS' === req.method) {
+    res.send(200);
+  } else {
+    next();
+  }
+}; **/
 
 const app = express();
 app.set('port', (enviroment.PORT || 3000));
@@ -13,6 +24,7 @@ app.use('/', express.static(path.join(__dirname, '../client')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// app.use(corsRequests);
 app.use(morgan('dev'));
 
 mongoose.connect('mongodb://' + enviroment.DB_HOST, { useNewUrlParser: true });
