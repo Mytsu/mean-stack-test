@@ -1,7 +1,7 @@
 import IssueCtrl from './controllers/issues';
 import * as express from 'express';
 
-export default function setRoutes(app) {
+export default function setRoutes(app: express.Application) {
 
   const issues = new IssueCtrl();
   const router = express.Router();
