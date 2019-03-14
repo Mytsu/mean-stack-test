@@ -7,4 +7,8 @@ import { config } from 'dotenv';
     DB_HOST - database url
 **/
 
-config({ path: resolve(__dirname, '../../.env')});
+if (process.env.NODE_ENV === 'development') {
+    config({ path: resolve(__dirname, '../../.env.development')});
+} else {
+    config({ path: resolve(__dirname, '../../.env')});
+}
