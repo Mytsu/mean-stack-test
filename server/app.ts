@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(corsRequests);
 app.use(morgan('dev'));
 
-mongoose.connect('mongodb://' + process.env.DB_HOST, { useNewUrlParser: true });
+mongoose.connect('mongodb://' + process.env.DB_HOST + '/issues', { useNewUrlParser: true });
 const db = mongoose.connection;
 (<any>mongoose).Promise = global.Promise;
 
