@@ -44,3 +44,6 @@ Thumbs.db
 
 # MongoDB Data
 data/
+
+# DotEnv file
+.env

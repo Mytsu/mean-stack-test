@@ -2,10 +2,12 @@ import * as express from 'express';
 import * as morgan from 'morgan';
 import * as mongoose from 'mongoose';
 import * as path from 'path';
-import { enviroment } from './enviroment';
 import setRoutes from './routes';
+import 'env';
 
-/* const corsRequests = function(req, res, next) {
+// corsRequests allows Cross-Origin requests to the server
+
+const corsRequests = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
@@ -15,19 +17,19 @@ import setRoutes from './routes';
   } else {
     next();
   }
-}; **/
+};
 
 const app = express();
-app.set('port', (enviroment.PORT || 3000));
+app.set('port', (process.env.PORT || 3000));
 
 app.use('/', express.static(path.join(__dirname, '../client')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// app.use(corsRequests);
+app.use(corsRequests);
 app.use(morgan('dev'));
 
-mongoose.connect('mongodb://' + enviroment.DB_HOST, { useNewUrlParser: true });
+mongoose.connect('mongodb://' + process.env.DB_HOST, { useNewUrlParser: true });
 const db = mongoose.connection;
 (<any>mongoose).Promise = global.Promise;
 
