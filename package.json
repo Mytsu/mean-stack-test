@@ -8,7 +8,7 @@
         "ng": "ng",
         "start": "node ./dist/server/app.js",
         "watch": "nodemon ./dist/server/app.js",
-        "build": "yarn build:client && yarn build:server",
+        "build": "yarn build:server && yarn build:client",
         "build:client": "ng build --prod",
         "build:server": "tsc -b ./server/tsconfig.json",
         "test:client": "ng test",

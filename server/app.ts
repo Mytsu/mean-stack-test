@@ -2,11 +2,15 @@ import * as express from 'express';
 import * as morgan from 'morgan';
 import * as mongoose from 'mongoose';
 import * as path from 'path';
-require('dotenv').config();
+import { Log } from './log';
 import session = require('express-session');
 const FileStore = require('session-file-store')(session);
 import uuid = require('uuid/v4');
 import setRoutes from './routes';
+import './env';
+
+const MongoStore = require('connect-mongo')(session);
+const Logger = new Log();
 
 // corsRequests allows Cross-Origin requests to the server
 
@@ -14,8 +18,8 @@ const corsRequests = function(req: express.Request, res: express.Response, next:
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
-  // some browsers send a pre-flight OPTIONS request to check if CORS is enabled so you have to also respond to that
   if ('OPTIONS' === req.method) {
+    Logger.info('OPTIONS request received');
     res.send(200);
   } else {
     next();
@@ -34,9 +38,13 @@ app.use(morgan('dev'));
 
 app.use(session({
   genid: (req: express.Request) => {
-    return uuid();
+    const id = uuid();
+    Logger.info('Session Middleware: id generated\nUID: ', id);
+    return id;
   },
-  store: new FileStore(),
+  store: new MongoStore({
+    url: 'mongodb://' + process.env.DB_HOST + '/issuescookies'
+  }),
   secret: process.env.SECRET_KEY,
   resave: false,
   saveUninitialized: true,
@@ -51,7 +59,7 @@ const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
-  console.log('Connected to MongoDB');
+  Logger.info('Connected to MongoDB');
 
   setRoutes(app);
 
@@ -60,7 +68,7 @@ db.once('open', () => {
   });
 
   app.listen(app.get('port'), () => {
-    console.log('listening on port ' + app.get('port'));
+    Logger.info('listening on port ' + app.get('port'));
   });
 
 });

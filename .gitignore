@@ -48,5 +48,5 @@ data/
 # DotEnv file
 .env*
 
-# Sessions folder
-sessions
+# Session Filestore files
+sessions/
