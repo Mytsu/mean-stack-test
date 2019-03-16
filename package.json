@@ -6,9 +6,9 @@
     "license": "ISC",
     "scripts": {
         "ng": "ng",
-        "start": "set NODE_ENV=development && node ./dist/server/app.js",
-        "bsd": "set NODE_ENV=development && nodemon ./dist/server/app.js",
-        "build": "yarn bs && ng build --prod",
+        "start": "node ./dist/server/app.js",
+        "watch": "nodemon ./dist/server/app.js",
+        "build": "yarn build:server && yarn build:client",
         "build:client": "ng build --prod",
         "build:server": "tsc -b ./server/tsconfig.json",
         "test:client": "ng test",

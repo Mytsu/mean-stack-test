@@ -6,7 +6,7 @@ import { Log } from './log';
 import session = require('express-session');
 import uuid = require('uuid/v4');
 import setRoutes from './routes';
-import 'env';
+import './env';
 
 const MongoStore = require('connect-mongo')(session);
 const Logger = new Log();
@@ -17,7 +17,6 @@ const corsRequests = function(req: express.Request, res: express.Response, next:
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
-  // some browsers send a pre-flight OPTIONS request to check if CORS is enabled so you have to also respond to that
   if ('OPTIONS' === req.method) {
     Logger.info('OPTIONS request received');
     res.send(200);
@@ -43,7 +42,7 @@ app.use(session({
     return id;
   },
   store: new MongoStore({
-    url: process.env.DB_HOST + '/issuescookies'
+    url: 'mongodb://' + process.env.DB_HOST + '/issuescookies'
   }),
   secret: process.env.SECRET_KEY,
   resave: false,
