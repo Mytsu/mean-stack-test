@@ -19,6 +19,7 @@ const corsRequests = function(req: express.Request, res: express.Response, next:
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   // some browsers send a pre-flight OPTIONS request to check if CORS is enabled so you have to also respond to that
   if ('OPTIONS' === req.method) {
+    Logger.info('OPTIONS request received');
     res.send(200);
   } else {
     next();
@@ -37,7 +38,9 @@ app.use(morgan('dev'));
 
 app.use(session({
   genid: (req: express.Request) => {
-    return uuid();
+    const id = uuid();
+    Logger.info('Session Middleware: id generated\nUID: ', id);
+    return id;
   },
   store: new MongoStore({
     url: process.env.DB_HOST + '/issuescookies'
@@ -56,7 +59,7 @@ const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
-  console.log('Connected to MongoDB');
+  Logger.info('Connected to MongoDB');
 
   setRoutes(app);
 
@@ -65,7 +68,7 @@ db.once('open', () => {
   });
 
   app.listen(app.get('port'), () => {
-    console.log('listening on port ' + app.get('port'));
+    Logger.info('listening on port ' + app.get('port'));
   });
 
 });
